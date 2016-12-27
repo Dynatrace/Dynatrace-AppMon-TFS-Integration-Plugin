@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<!-- 
+#################################################################################################################
+# Copyright 2016 Realdolmen
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#################################################################################################################
+#
+# @author: Bert Van der Heyden (Realdolmen)
+#
+# Summary section on build overview
+#
+#################################################################################################################
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="lib/VSS.SDK.min.js"></script>
+    
+    <script type="text/javascript">
+        VSS.init( { 
+            usePlatformScripts: true, 
+            moduleLoaderConfig: { 
+                paths: { "enhancer": "scripts" } 
+            } 
+        });
+        
+        VSS.ready(function() {
+            require(["enhancer/dynatrace-testautomation"], function () { });
+        });        
+    </script>
+    <style>
+      .dynatrace-testautomation-summary {
+        background-image: url("./images/dynatrace-icon.png");
+        background-repeat: no-repeat;
+        padding-top: 32px;
+        min-height: 50px;
+      }
+      .dynatrace-testautomation-summary table {
+        display: none;
+      }
+      .dynatrace-testautomation-summary span.message {
+        padding-left: 35px;
+      }
+      .dynatrace-testautomation-summary table tr th, .dynatrace-testautomation-summary table tr td {
+        padding: 3px 10px;
+      }
+      .dynatrace-testautomation-summary table tr th:nth-child(1) {
+        background: green;
+        color: #fff;
+      }
+      .dynatrace-testautomation-summary table tr th:nth-child(2) {
+        background: blue;
+        color: #fff;
+      }
+      .dynatrace-testautomation-summary table tr th:nth-child(3) {
+        background: yellow;
+      }
+      .dynatrace-testautomation-summary table tr th:nth-child(4) {
+        background: orange;
+      }
+      .dynatrace-testautomation-summary table tr th:nth-child(5) {
+        background: red;
+        color: #fff;
+      }
+    </style>
+</head>
+<body>
+    <div class="dynatrace-testautomation-summary">
+	    <table>
+			<tr><th>Passed</th><th>Improved</th><th>Volatile</th><th>Degraded</th><th>Failed</th></tr>
+		</table>
+    </div>  
+</body>
+</html>

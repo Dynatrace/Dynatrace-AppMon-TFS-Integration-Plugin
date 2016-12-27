@@ -1,0 +1,90 @@
+{
+  "manifestVersion": 1,
+  "id": "dynatrace-test-automation",
+  "version": "1.0.0",
+  "name": "Dynatrace Test Automation",
+  "description": "Integration of Dynatrace within your build. Dynatrace instruments the Unit and Integration tests and performs Test Automation APM magic. The results flow back to your build in TFS.",
+  "publisher": "Realdolmen",
+  "targets": [{
+    "id": "Microsoft.VisualStudio.Services"
+  }],
+  "icons": {
+    "default": "images/logo.png"
+  },
+  "scopes": [
+    "vso.build_execute"
+  ],
+  "tags": [
+    "Build"
+  ],
+  "contributions": [
+    {
+      "id": "dynatrace-testrun-results-tab",
+      "type": "ms.vss-build-web.build-results-tab",
+      "description": "Adds the TestAutomation result details tab",
+      "targets": [
+          "ms.vss-build-web.build-results-view"
+      ],
+      "properties": {
+          "name": "Dynatrace Test Automation",
+          "uri": "dynatrace-testautomation-results.html",
+          "height":"auto"
+      }
+    },
+    {
+      "id": "dynatrace-testrun-summary-section",
+      "type": "ms.vss-build-web.build-results-section",
+      "description": "A section containing the summary of the TestRun results within Dynatrace",
+      "targets": [
+        "ms.vss-build-web.build-results-summary-tab"
+      ],
+      "properties": {
+        "name": "Dynatrace Summary",
+        "uri": "dynatrace-testautomation-summary.html",
+        "order": 20,
+        "height": "100px"
+      }
+    },
+    {
+      "id": "register-dynatrace-testrun",
+      "description": "Register a new Testrun in Dynatrace",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [ "ms.vss-distributed-task.tasks" ],
+      "properties": {
+        "name": "DynatraceRegisterTestrun"
+      }
+    },
+    {
+      "id": "collect-dynatrace-testrun-results",
+      "description": "Collects Dynatrace Testrun Results and stores them as a build attachment",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [ "ms.vss-distributed-task.tasks" ],
+      "properties": {
+        "name": "DynatraceCollectTestRunResults"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "dynatrace-testautomation-results.html", "addressable": true
+    },
+    {
+      "path": "dynatrace-testautomation-summary.html", "addressable": true
+    },
+    {
+      "path": "images", "addressable": true
+    },
+    {
+      "path": "DynatraceRegisterTestrun"
+    },
+    {
+      "path": "DynatraceCollectTestRunResults"
+    },
+    {
+      "path": "dist", "addressable": true, "packagePath": "scripts"
+    },         
+    {
+      "path": "node_modules/vss-web-extension-sdk/lib", "addressable": true, "packagePath": "lib"
+    }      
+  ]
+}

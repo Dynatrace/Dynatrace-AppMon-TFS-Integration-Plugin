@@ -1,0 +1,65 @@
+{
+  "id": "4f92779c-bd55-11e6-a4a6-cec0c932ce01",
+  "name": "CollectDynatraceTestrunResults",
+  "friendlyName": "Dynatrace Collect Testrun Results",
+  "description": "Collects Dynatrace Testrun Results and stores them as a build attachment",
+  "author": "Realdolmen (Koen Callens)",
+  "helpMarkDown": "Collects DynaTrace TestRun Results and stores them as a build attachment. This task will also generate a build warning if the number of degraded tests is greater than 0.",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "groups": [
+    {
+      "name": "testrun",
+      "displayName": "Test Settings",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "markBuildOnDegraded",
+      "type": "pickList",
+      "label": "Mark build as ... on degraded tests",
+      "defaultValue": "WARNING",
+      "options": {
+        "NOTHING": "as passed - do nothing",
+        "WARNING": "as passed with warnings",
+        "FAILED": "as failed"
+      },
+      "required": true,
+      "helpMarkDown": "What should happen when degraded tests are detected by Dynatrace?",
+      "groupName": "testrun"
+    },
+    {
+      "name": "markBuildOnVolatile",
+      "type": "pickList",
+      "label": "Mark build as ... on volatile tests",
+      "defaultValue": "NOTHING",
+      "options": {
+        "NOTHING": "as passed - do nothing",
+        "WARNING": "as passed with warnings",
+        "FAILED": "as failed"
+      },
+      "required": true,
+      "helpMarkDown": "What should happen when volatile tests are detected by Dynatrace?",
+      "groupName": "testrun"
+    }
+  ],
+  "minimumAgentVersion": "1.83.0",
+  "instanceNameFormat": "Collect Dynatrace Testrun Results",
+  "execution": {
+    "PowerShell": {
+      "target": "$(currentDirectory)\\CollectTestrunResults.ps1",
+      "argumentFormat": "",
+      "workingDirectory": "$(currentDirectory)"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+﻿{
+  "id": "b9b5f010-bfa6-11e6-a4a6-cec0c932ce01",
+  "name": "RegisterDynatraceTestrun",
+  "friendlyName": "Dynatrace Register Testrun",
+  "description": "Register a new Testrun in Dynatrace.",
+  "author": "Realdolmen (Bert Van der Heyden)",
+  "helpMarkDown": "Register a new Testrun in Dynatrace via the REST interface. A DT_TESTRUN_ID environment variable is written which is used by the Dynatrace agent to link the executed tests with this testrun.",
+  "category": "Utility",
+  "visibility": [
+    "Build", 
+    "Release"
+  ],
+  
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "demands": [
+  ],
+  "groups": [
+    {
+      "name": "server",
+      "displayName": "Dynatrace Endpoint",
+      "isExpanded": true
+    },
+    {
+      "name": "testrun",
+      "displayName": "Test Settings",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "dtserver",
+      "type": "connectedService:Generic",
+      "label": "Dynatrace server",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Connection to the Dynatrace server which is managed as a connectedService in TFS.",
+      "groupName": "server"
+    },
+    {
+      "name": "profile",
+      "type": "string",
+      "label": "System profile",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The name of the Dynatrace systemprofile.",
+      "groupName": "testrun"
+    },
+    {
+      "name": "category",
+      "type": "string",
+      "label": "Test category",
+      "defaultValue": "unit",
+      "required": true,
+      "helpMarkDown": "The category for the tests (unit/performance).",
+      "groupName": "testrun"
+    }
+  ],
+  "minimumAgentVersion": "1.83.0",
+  "instanceNameFormat": "Register Dynatrace Testrun",
+  "execution": {
+    "PowerShell": {
+      "target": "$(currentDirectory)\\RegisterTestrun.ps1",
+      "argumentFormat": "",
+      "workingDirectory": "$(currentDirectory)"
+    }
+  }
+}
