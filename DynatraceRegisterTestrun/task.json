@@ -5,7 +5,7 @@
   "description": "Register a new Testrun in Dynatrace.",
   "author": "Realdolmen (Bert Van der Heyden)",
   "helpMarkDown": "Register a new Testrun in Dynatrace via the REST interface. A DT_TESTRUN_ID environment variable is written which is used by the Dynatrace agent to link the executed tests with this testrun.",
-  "category": "Utility",
+  "category": "Test",
   "visibility": [
     "Build", 
     "Release"

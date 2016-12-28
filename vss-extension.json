@@ -80,6 +80,9 @@
       "path": "images", "addressable": true
     },
     {
+      "path": "screenshots", "addressable": true
+    },
+    {
       "path": "DynatraceRegisterTestrun"
     },
     {

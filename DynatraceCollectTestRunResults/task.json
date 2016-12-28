@@ -5,7 +5,7 @@
   "description": "Collects Dynatrace Testrun Results and stores them as a build attachment",
   "author": "Realdolmen (Koen Callens)",
   "helpMarkDown": "Collects DynaTrace TestRun Results and stores them as a build attachment. This task will also generate a build warning if the number of degraded tests is greater than 0.",
-  "category": "Utility",
+  "category": "Test",
   "visibility": [
     "Build",
     "Release"
