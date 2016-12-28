@@ -17,6 +17,11 @@
   "tags": [
     "Build"
   ],
+  "content": {
+    "details": {
+      "path": "README.md"
+    }
+  },
   "contributions": [
     {
       "id": "dynatrace-testrun-results-tab",
