@@ -1,3 +1,5 @@
+<img src="./images/logo-tfs.png" width="300">
+
 # Dynatrace TFS/VSTS Test Automation Plugin
 
 Integration of Dynatrace within your TFS/VSTS build. 
@@ -52,6 +54,10 @@ This means installing the Dynatrace Agent on the different build target machines
             </configuration>
           </plugin>
 ```
+
+The build step in TFS/VSTS might look like this:
+
+![Maven Build Task Configuration](screenshots/maven-build-task-configuration.png)
 
 ## Configure Build ##
 
