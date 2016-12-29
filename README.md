@@ -2,7 +2,7 @@
 
 Integration of Dynatrace within your TFS/VSTS build. 
 
-Dynatrace can instrument the Unit and Integration tests and does the Test Automation APM magic: [Test Automation Explained](https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained) 
+Dynatrace can instrument the Unit and Integration tests and does the Test Automation APM magic: [Test Automation Explained] 
 
 The results flow back to your TFS/VSTS build. You can even configure this extension to fail your build when Dynatrace detects regression issues.
 
@@ -13,6 +13,9 @@ The results flow back to your TFS/VSTS build. You can even configure this extens
 It is an important prerequisite that the unit/performance tests which you execute via the TFS or VSTS build are instrumented by Dynatrace first.
 
 ### For dotNET
+
+see [.NET Agent Configuration]
+
 This means installing and configuring the Dynatrace Agent on the different build target machines. Tests are often executed by the following processes, but you need to figure out what applies for your environment.
 
 - vstest.console.exe
@@ -24,7 +27,12 @@ This means installing and configuring the Dynatrace Agent on the different build
 - QTAgent_40.exe
 - QTAgent32_40.exe
 
+
+
 ### For Java
+
+see [Java Agent Configuration]
+
 This means installing the Dynatrace Agent on the different build target machines. But configuration needs to be done when the JVM starts which will execute your tests. For a project which uses Maven, it can be done like this:
 
 ```xml
@@ -33,7 +41,7 @@ This means installing the Dynatrace Agent on the different build target machines
       <id>with-dynatrace</id>
       <properties>
         <dt_agent_path>/opt/dynatrace-6.5/agent/lib64/libdtagent.so</dt_agent_path>
-        <dt_agent_name>Backend_JUNIT_CHEMAG</dt_agent_name>
+        <dt_agent_name>Backend_JUNIT_TESTS</dt_agent_name>
         <dt_server>localhost:9998</dt_server>
       </properties>
       <build>
@@ -80,7 +88,9 @@ After you run the build with this extension configured, you will notice an extra
 
 Created by `RealDolmen`. All info on [https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin](https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin)
 
-
+[Test Automation Explained]:https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
+[.NET+Agent+Configuration]:https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
+[Java+Agent+Configuration]:https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
 
 
 
