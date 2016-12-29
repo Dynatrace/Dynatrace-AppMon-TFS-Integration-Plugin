@@ -1,4 +1,4 @@
-# Dynatrace Test Automation Plugin
+# Dynatrace TFS/VSTS Test Automation Plugin
 
 Integration of Dynatrace within your TFS/VSTS build. 
 
@@ -86,11 +86,11 @@ After you run the build with this extension configured, you will notice an extra
 > **1.0.0**
 > - First public version
 
-Created by `RealDolmen`. All info on [https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin](https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin)
+Created by `RealDolmen`. All info on https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin
 
-[Test Automation Explained]:https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
-[.NET+Agent+Configuration]:https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
-[Java+Agent+Configuration]:https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
+[Test Automation Explained]: https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
+[.NET+Agent+Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
+[Java+Agent+Configuration]: https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
 
 
 
