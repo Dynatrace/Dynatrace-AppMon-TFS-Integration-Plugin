@@ -27,8 +27,6 @@ This means installing and configuring the Dynatrace Agent on the different build
 - QTAgent_40.exe
 - QTAgent32_40.exe
 
-
-
 ### For Java
 
 see [Java Agent Configuration]
@@ -89,8 +87,8 @@ After you run the build with this extension configured, you will notice an extra
 Created by `RealDolmen`. All info on https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin
 
 [Test Automation Explained]: https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
-[.NET+Agent+Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
-[Java+Agent+Configuration]: https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
+[.NET Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
+[Java Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
 
 
 
