@@ -17,7 +17,9 @@
 param(
 	[string][Parameter(Mandatory=$true)] $dtserver,
 	[string][Parameter(Mandatory=$true)] $profile,
-	[string][Parameter(Mandatory=$true)] $category
+	[string][Parameter(Mandatory=$true)] $category,
+	[string][Parameter(Mandatory=$true)] $version,
+	[string][Parameter(Mandatory=$true)] $marker
 )
 
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
@@ -26,14 +28,18 @@ import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
 Write-Host "Starting Register Dynatrace Testrun"
 
 [String]$buildID = $env:BUILD_BUILDID
+[String]$testRunVersion = $version
+if ($version.StartsWith("env:","CurrentCultureIgnoreCase")){
+  $testRunVersion=(get-item $version).Value
+}
 
 #Compose JSON request
-#TODO: use version in stead of buildId. How to get that?
-$splitBuildID = $buildID.Split('.')
+
+$splitTestRunVersion = $testRunVersion.Split('.')
 $requestBody = @{
-  "versionmajor" = $splitBuildID[0]
-  "versionminor" = $splitBuildID[1]
-  "versionrevision" = $splitBuildID[2]
+  "versionmajor" = $splitTestRunVersion[0]
+  "versionminor" = $splitTestRunVersion[1]
+  "versionrevision" = $splitTestRunVersion[2]
   "versionbuild" = $buildID
   "category" = $category
   "additionalmetadata" = @{
@@ -41,6 +47,10 @@ $requestBody = @{
     "project" = $env:SYSTEM_TEAMPROJECT
   }
 }
+if (-Not [string]::IsNullOrEmpty($marker)){
+  $requestBody.marker = $marker
+}
+
 
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
 $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name $dtserver

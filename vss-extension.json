@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "dynatrace-test-automation",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "name": "Dynatrace Test Automation",
   "description": "Integration of Dynatrace within your build. Dynatrace instruments the Unit and Integration tests and performs Test Automation APM magic. The results flow back to your build in TFS.",
   "publisher": "Realdolmen",
@@ -23,6 +23,56 @@
     }
   },
   "contributions": [
+    {
+      "id": "service-endpoint",
+      "description": "Service Endpoint type for Dynatrace connections",
+      "type": "ms.vss-endpoint.service-endpoint-type",
+      "targets": [ "ms.vss-endpoint.endpoint-types" ],
+      "properties": {
+        "name": "Dynatrace",
+        "displayName": "Dynatrace API connection",
+        "url": {
+          "displayName": "Dynatrace API Url",
+          "helpText": "Url pointing to the Dynatrace REST API. Should end with /api/v1 typically running on port 8021"
+        },
+        "dataSources": [
+          {
+            "name": "Dynatrace Profiles",
+            "endpointUrl": "{{endpoint.url}}/profiles",
+            "resultSelector": "jsonpath:$.systemprofiles.id"
+          }
+        ],
+        "authenticationSchemes": [
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+            "inputDescriptors": [
+              {
+                "id": "username",
+                "name": "Username",
+                "description": "Username",
+                "inputMode": "textbox",
+                "validation": {
+                  "isRequired": false,
+                  "dataType": "string"
+                }
+              },
+              {
+                "id": "password",
+                "name": "Password",
+                "description": "Password",
+                "inputMode": "passwordbox",
+                "isConfidential": true,
+                "validation": {
+                  "isRequired": false,
+                  "dataType": "string"
+                }
+              }
+            ]
+          }
+        ],
+        "helpMarkDown": "<a href=\"https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin\" target=\"_blank\"><b>Learn More</b></a>"
+      }
+    },
     {
       "id": "dynatrace-testrun-results-tab",
       "type": "ms.vss-build-web.build-results-tab",

@@ -1,5 +1,5 @@
 ﻿{
-  "id": "b9b5f010-bfa6-11e6-a4a6-cec0c932ce01",
+  "id": "e6eaa7ec-cea1-11e6-bf26-cec0c932ce01",
   "name": "RegisterDynatraceTestrun",
   "friendlyName": "Dynatrace Register Testrun",
   "description": "Register a new Testrun in Dynatrace.",
@@ -33,7 +33,7 @@
   "inputs": [
     {
       "name": "dtserver",
-      "type": "connectedService:Generic",
+      "type": "connectedService:Dynatrace",
       "label": "Dynatrace server",
       "defaultValue": "",
       "required": true,
@@ -42,21 +42,55 @@
     },
     {
       "name": "profile",
-      "type": "string",
+      "type": "pickList",
       "label": "System profile",
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "The name of the Dynatrace systemprofile.",
-      "groupName": "testrun"
+      "groupName": "server",
+      "properties": {
+        "EditableOptions": "True"
+      }
     },
     {
       "name": "category",
-      "type": "string",
+      "type": "picklist",
       "label": "Test category",
       "defaultValue": "unit",
+      "options": {
+        "unit": "unit",
+        "performance": "performance",
+        "uidriven": "uidriven",
+        "webapi": "webapi",
+        "external": "external"
+      },
       "required": true,
       "helpMarkDown": "The category for the tests (unit/performance).",
       "groupName": "testrun"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "env:BUILD_BUILDID",
+      "required": true,
+      "helpMarkDown": "The version of the project major.minor.revision or a reference to an environment variable (prefixed with env:) which contains it.",
+      "groupName": "testrun"
+    },
+    {
+      "name": "marker",
+      "type": "string",
+      "label": "Marker",
+      "required": false,
+      "helpMarkDown": "Optional, marker is a label used in the Test Automation dashlet charts",
+      "groupName": "testrun"
+    }
+  ],
+  "dataSourceBindings": [
+    {
+      "target": "profile",
+      "endpointId": "$(dtserver)",
+      "dataSourceName": "Dynatrace Profiles"
     }
   ],
   "minimumAgentVersion": "1.83.0",
