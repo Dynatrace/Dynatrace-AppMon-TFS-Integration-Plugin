@@ -14,7 +14,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 0
+    "Patch": 2
   },
   "demands": [
   ],
@@ -54,7 +54,7 @@
     },
     {
       "name": "category",
-      "type": "picklist",
+      "type": "pickList",
       "label": "Test category",
       "defaultValue": "unit",
       "options": {

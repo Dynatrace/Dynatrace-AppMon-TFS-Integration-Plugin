@@ -19,7 +19,7 @@ param(
 	[string][Parameter(Mandatory=$true)] $profile,
 	[string][Parameter(Mandatory=$true)] $category,
 	[string][Parameter(Mandatory=$true)] $version,
-	[string][Parameter(Mandatory=$true)] $marker
+	[string][Parameter(Mandatory=$false)] $marker
 )
 
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
