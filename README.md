@@ -1,6 +1,6 @@
 <img src="./images/logo-tfs.png" width="300">
 
-# Dynatrace TFS/VSTS Test Automation Plugin
+# Dynatrace AppMon TFS/VSTS Test Automation Plugin
 
 Integration of Dynatrace within your TFS/VSTS build. 
 
