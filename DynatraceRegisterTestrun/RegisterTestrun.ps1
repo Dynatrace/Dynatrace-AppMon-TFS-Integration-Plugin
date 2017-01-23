@@ -50,7 +50,9 @@ $requestBody = @{
 if (-Not [string]::IsNullOrEmpty($marker)){
   $requestBody.marker = $marker
 }
-
+if ($splitTestRunVersion.Length -gt 3){
+  $requestBody.versionrevision = [system.String]::Join(".", $splitTestRunVersion[2..($splitTestRunVersion.length-1)])
+}
 
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
 $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name $dtserver

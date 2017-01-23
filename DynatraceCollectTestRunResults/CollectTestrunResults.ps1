@@ -32,6 +32,10 @@ function markBuild ($As, $Cause, $HowMany) {
     exit 1
 }
 
+function countTestRunEntries ($Data) {
+	if ($Data.testresults) {$Data.testresults.Length} else {0}
+}
+
 Write-Host "Starting Collection of Dynatrace Testrun Results"
 
 if (-not $env:DT_SERVICE_ENDPOINT_ID){
@@ -44,11 +48,28 @@ $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name 
 $securePwd = ConvertTo-SecureString $dynatraceEndpoint.Authorization.Parameters['password'] -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential ($dynatraceEndpoint.Authorization.Parameters['username'], $securePwd)
 
+$endpoint = $env:DT_TESTRUN_HREF
+Write-Host "Invoking: $endpoint"
+
 $WebClient = New-Object System.Net.WebClient
 $WebClient.Credentials = $credential
 
-$endpoint = $env:DT_TESTRUN_HREF
-Write-Host "Invoking: $endpoint"
+#Try getting the data but wait until it is stable. Dynatrace might take a while to get everything processed
+$testRunData = $WebClient.DownloadString($endpoint) | ConvertTo-Json
+$testRunCount = countTestRunEntries($testRunData)
+$prevTestRunCount = 0
+$retries = 10
+while (($testRunCount -eq 0 -or $testRunCount -gt $prevTestRunCount) -and $retries -gt 0)
+{
+  Start-Sleep -s 20
+  $prevTestRunCount = $testRunCount
+  $testRunData = $WebClient.DownloadString($endpoint) | ConvertTo-Json
+  $testRunCount = countTestRunEntries($testRunData)
+  $retries--
+  if ($retries -lt 7 -and $testRunCount -eq 0) {
+    $retries = 0
+  }
+}
 
 $Path = [io.path]::GetTempFileName()
 $WebClient.DownloadFile( $endpoint, $path ) 
@@ -58,11 +79,6 @@ Write-Host "##vso[task.addattachment type=dynatraceTestRun;name=dynatraceTestRun
 $testRunContent = (Get-Content $Path) -Join "`n" | ConvertFrom-Json
 $testRunNumDegraded = $testRunContent.numdegraded
 $testRunNumVolatile = $testRunContent.numvolatile
-
-$testRunNumVolatile = 1
-
-Write-Host $testRunNumDegraded
-Write-Host $testRunNumVolatile
 
 #Failed takes precedence
 if($markBuildOnDegraded -eq "FAILED" -or $markBuildOnVolatile -eq "FAILED") {
