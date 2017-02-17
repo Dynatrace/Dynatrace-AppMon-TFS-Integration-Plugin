@@ -19,8 +19,10 @@ param(
 	[string][Parameter(Mandatory=$true)] $profile,
 	[string][Parameter(Mandatory=$true)] $category,
 	[string][Parameter(Mandatory=$true)] $version,
-	[string][Parameter(Mandatory=$false)] $marker
+	[string][Parameter(Mandatory=$false)] $marker,
+	[string][Parameter(Mandatory=$true)] $activateDotNetAgent
 )
+[bool]$activateDotNetAgentBool = Convert-String $activateDotNetAgent Boolean
 
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal" 
@@ -79,6 +81,12 @@ if ($response)
   Write-Host "##vso[task.setvariable variable=DT_TESTRUN_ID;]$dtTestrunId"
 
   Write-Host "DynaTrace DT_TESTRUN_ID: $env:DT_TESTRUN_ID"
+  
+  # Activate the agent
+  if ($activateDotNetAgentBool)
+  {
+    $env:DT_AGENTACTIVE = $True
+  }
 }
 else
 {

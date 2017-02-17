@@ -12,9 +12,9 @@
   ],
   
   "version": {
-    "Major": 1,
+    "Major": 2,
     "Minor": 0,
-    "Patch": 3
+    "Patch": 0
   },
   "demands": [
   ],
@@ -83,6 +83,15 @@
       "label": "Marker",
       "required": false,
       "helpMarkDown": "Optional, marker is a label used in the Test Automation dashlet charts",
+      "groupName": "testrun"
+    },
+    {
+      "name": "activateDotNetAgent",
+      "type": "boolean",
+      "label": "Activate dotNet Agent",
+      "required": true,
+      "defaultValue": true,
+      "helpMarkDown": "Optional, sets the DT_AGENTACTIVE environment variable to true at process level which can overwrite the Machine wide setting",
       "groupName": "testrun"
     }
   ],
