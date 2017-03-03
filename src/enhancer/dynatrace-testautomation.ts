@@ -2,9 +2,11 @@ import Controls = require("VSS/Controls");
 import VSS_Service = require("VSS/Service");
 import TFS_Build_Contracts = require("TFS/Build/Contracts");
 import TFS_Build_Extension_Contracts = require("TFS/Build/ExtensionContracts");
+import TFS_Release_Extension_Contracts = require("ReleaseManagement/Core/ExtensionContracts");
+import TFS_Release_Contracts = require("ReleaseManagement/Core/Contracts");
 import DT_Client = require("TFS/DistributedTask/TaskRestClient");
 
-export class DynatraceControl extends Controls.BaseControl {
+export class DynatraceBuildControl extends Controls.BaseControl {
 	constructor() {
 		super();
 	}
@@ -59,7 +61,44 @@ export class DynatraceControl extends Controls.BaseControl {
 	
 }
 
-export class DynatraceSummarySection extends DynatraceControl {	
+export class DynatraceReleaseControl extends Controls.BaseControl {
+	constructor() {
+		super();
+	}
+		
+	public initialize(): void {
+		super.initialize();
+		// Get configuration that's shared between extension and the extension host
+		var sharedConfig: TFS_Release_Extension_Contracts.IReleaseViewExtensionConfig = VSS.getConfiguration();
+		var vsoContext = VSS.getWebContext();
+		if(sharedConfig) {
+			// register your extension with host through callback
+			sharedConfig.onReleaseChanged((release: TFS_Release_Contracts.Release) => {
+				// get the dynatraceTestRun attachment from the build
+				var taskClient = DT_Client.getClient();
+				release.environments.forEach(function (env) {
+					//alert(env.name);
+				});
+			});
+			
+			sharedConfig.onViewDisplayed(() => {
+				VSS.resize();
+			});
+			
+		}
+	}
+	
+	protected displayDynatraceTestRunData(testRunData) {}
+	
+	public hasTests(testRunData) {
+		if (!testRunData.testresults) return false;
+		if (testRunData.testresults.length==0) return false;
+		return true;
+	}
+	
+}
+
+export class DynatraceBuildSummarySection extends DynatraceBuildControl {	
 	constructor() {
 		super();
 	}
@@ -83,7 +122,31 @@ export class DynatraceSummarySection extends DynatraceControl {
 	}
 }
 
-export class DynatraceResultsTab extends DynatraceControl {	
+export class DynatraceReleaseSummarySection extends DynatraceReleaseControl {	
+	constructor() {
+		super();
+	}
+	
+	protected displayDynatraceTestRunData(testRunData) {
+		var hasTests = this.hasTests(testRunData);
+		if (hasTests){
+			this._element.find("table").show();
+			
+			var elementRow = $("<tr/>");
+			elementRow.append($("<td/>").text(testRunData.numpassed));
+			elementRow.append($("<td/>").text(testRunData.numimproved));
+			elementRow.append($("<td/>").text(testRunData.numvolatile));
+			elementRow.append($("<td/>").text(testRunData.numdegraded));
+			elementRow.append($("<td/>").text(testRunData.numfailed));
+			this._element.find("table").append(elementRow);
+		}
+		else{
+			this._element.append($("<span/>").addClass("message").text(testRunData.message));
+		}
+	}
+}
+
+export class DynatraceBuildResultsTab extends DynatraceBuildControl {	
 	constructor() {
 		super();
 	}
@@ -135,8 +198,14 @@ export class DynatraceResultsTab extends DynatraceControl {
 	}
 }
 
-DynatraceSummarySection.enhance(DynatraceSummarySection, $(".dynatrace-testautomation-summary"), {});
-DynatraceResultsTab.enhance(DynatraceResultsTab, $(".dynatrace-testautomation-results"), {});
+if (typeof VSS.getConfiguration().onBuildChanged == 'function'){	
+	DynatraceBuildSummarySection.enhance(DynatraceBuildSummarySection, $(".dynatrace-testautomation-summary"), {});
+	DynatraceBuildResultsTab.enhance(DynatraceBuildResultsTab, $(".dynatrace-testautomation-results"), {});
+}
+if (typeof VSS.getConfiguration().onReleaseChanged == 'function'){	
+	DynatraceReleaseSummarySection.enhance(DynatraceReleaseSummarySection, $(".dynatrace-testautomation-summary"), {});
+	//DynatraceReleaseResultsTab.enhance(DynatraceResultsTab, $(".dynatrace-testautomation-results"), {});
+}
 
 // Notify the parent frame that the host has been loaded
 VSS.notifyLoadSucceeded();

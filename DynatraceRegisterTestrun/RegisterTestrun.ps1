@@ -1,5 +1,5 @@
 #################################################################################################################
-# Copyright 2016 Realdolmen
+# Copyright 2017 Realdolmen
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -29,7 +29,14 @@ import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
 
 Write-Host "Starting Register Dynatrace Testrun"
 
-[String]$buildID = $env:BUILD_BUILDID
+[String]$buildUniqueID = $env:BUILD_BUILDID
+if ($env:RELEASE_RELEASENAME){
+  $buildUniqueID = $buildUniqueID + "_" + $env:RELEASE_RELEASENAME
+}
+if ($env:RELEASE_ENVIRONMENTNAME){
+  $buildUniqueID = $buildUniqueID + "_" + $env:RELEASE_ENVIRONMENTNAME
+}
+
 [String]$testRunVersion = $version
 if ($version.StartsWith("env:","CurrentCultureIgnoreCase")){
   $testRunVersion=(get-item $version).Value
@@ -42,7 +49,7 @@ $requestBody = @{
   "versionmajor" = $splitTestRunVersion[0]
   "versionminor" = $splitTestRunVersion[1]
   "versionrevision" = $splitTestRunVersion[2]
-  "versionbuild" = $buildID
+  "versionbuild" = $buildUniqueID
   "category" = $category
   "additionalmetadata" = @{
     "TFS" = $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI
