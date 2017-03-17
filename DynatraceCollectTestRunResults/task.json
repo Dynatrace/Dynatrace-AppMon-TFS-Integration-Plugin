@@ -3,7 +3,7 @@
   "name": "CollectDynatraceTestrunResults",
   "friendlyName": "Dynatrace Collect Testrun Results",
   "description": "Collects Dynatrace Testrun Results and stores them as a build attachment",
-  "author": "Realdolmen (Koen Callens)",
+  "author": "Realdolmen (Koen Callens / Bert Van der Heyden)",
   "helpMarkDown": "Collects DynaTrace TestRun Results and stores them as a build attachment. This task will also generate a build warning if the number of degraded tests is greater than 0.",
   "category": "Test",
   "visibility": [
@@ -13,7 +13,7 @@
   "demands": [],
   "version": {
     "Major": 2,
-    "Minor": 0,
+    "Minor": 4,
     "Patch": 0
   },
   "groups": [

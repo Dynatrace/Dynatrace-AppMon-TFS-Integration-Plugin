@@ -5,6 +5,7 @@ import TFS_Build_Extension_Contracts = require("TFS/Build/ExtensionContracts");
 import TFS_Release_Extension_Contracts = require("ReleaseManagement/Core/ExtensionContracts");
 import TFS_Release_Contracts = require("ReleaseManagement/Core/Contracts");
 import DT_Client = require("TFS/DistributedTask/TaskRestClient");
+import RM_Client = require("ReleaseManagement/Core/RestClient");
 
 export class DynatraceBuildControl extends Controls.BaseControl {
 	constructor() {
@@ -21,6 +22,7 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 			sharedConfig.onBuildChanged((build: TFS_Build_Contracts.Build) => {
 				// get the dynatraceTestRun attachment from the build
 				var taskClient = DT_Client.getClient();
+				
 				taskClient.getPlanAttachments(vsoContext.project.id, "build", build.orchestrationPlan.planId, "dynatraceTestRun").then((taskAttachments)=> {							
 					if (taskAttachments.length === 1) {
 						var recId = taskAttachments[0].recordId;
@@ -38,7 +40,6 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 							
 							var dynatraceTestRunData = arrayBufferToString(attachmentContent);
 							this.displayDynatraceTestRunData(JSON.parse(dynatraceTestRunData));
-
 						});
 					}
 				});
@@ -47,7 +48,6 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 			sharedConfig.onViewDisplayed(() => {
 				VSS.resize();
 			});
-			
 		}
 	}
 	
@@ -62,6 +62,7 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 }
 
 export class DynatraceReleaseControl extends Controls.BaseControl {
+	
 	constructor() {
 		super();
 	}
@@ -70,14 +71,34 @@ export class DynatraceReleaseControl extends Controls.BaseControl {
 		super.initialize();
 		// Get configuration that's shared between extension and the extension host
 		var sharedConfig: TFS_Release_Extension_Contracts.IReleaseViewExtensionConfig = VSS.getConfiguration();
-		var vsoContext = VSS.getWebContext();
 		if(sharedConfig) {
 			// register your extension with host through callback
 			sharedConfig.onReleaseChanged((release: TFS_Release_Contracts.Release) => {
 				// get the dynatraceTestRun attachment from the build
-				var taskClient = DT_Client.getClient();
+				var rmClient = RM_Client.getClient();
+				var LOOKFOR_TASK = "Collect Dynatrace Testrun Results";
+				var LOOKFOR_TESTRUNDATA = "\"testRunData\":";
+				
+				var drcScope = this;
+				
 				release.environments.forEach(function (env) {
-					//alert(env.name);
+					var _env = env;
+					//project: string, releaseId: number, environmentId: number, taskId: number
+					rmClient.getTasks(VSS.getWebContext().project.id, release.id, env.id).then(function(tasks){
+						tasks.forEach(function(task){
+							if (task.name == LOOKFOR_TASK){
+								rmClient.getLog(VSS.getWebContext().project.id, release.id, env.id, task.id).then(function(log){
+									var iTRD = log.indexOf(LOOKFOR_TESTRUNDATA);
+									if (iTRD > 0){
+										var testRunData = JSON.parse(log.substring(iTRD + LOOKFOR_TESTRUNDATA.length, log.indexOf('}',iTRD)+1));
+										
+										drcScope.displayDynatraceTestRunData.bind(drcScope);
+										drcScope.displayDynatraceTestRunData(_env.name, testRunData);
+									}
+								});
+							}
+						});
+					});
 				});
 			});
 			
@@ -88,13 +109,7 @@ export class DynatraceReleaseControl extends Controls.BaseControl {
 		}
 	}
 	
-	protected displayDynatraceTestRunData(testRunData) {}
-	
-	public hasTests(testRunData) {
-		if (!testRunData.testresults) return false;
-		if (testRunData.testresults.length==0) return false;
-		return true;
-	}
+	protected displayDynatraceTestRunData(env, testRunData) {}
 	
 }
 
@@ -116,7 +131,7 @@ export class DynatraceBuildSummarySection extends DynatraceBuildControl {
 			elementRow.append($("<td/>").text(testRunData.numfailed));
 			this._element.find("table").append(elementRow);
 		}
-		else{
+		else if (testRunData.message){
 			this._element.append($("<span/>").addClass("message").text(testRunData.message));
 		}
 	}
@@ -127,10 +142,9 @@ export class DynatraceReleaseSummarySection extends DynatraceReleaseControl {
 		super();
 	}
 	
-	protected displayDynatraceTestRunData(testRunData) {
-		var hasTests = this.hasTests(testRunData);
-		if (hasTests){
-			this._element.find("table").show();
+	protected displayDynatraceTestRunData(env, testRunData) {
+	    if (testRunData.hasTests){
+			var table = this._element.find("table").clone();
 			
 			var elementRow = $("<tr/>");
 			elementRow.append($("<td/>").text(testRunData.numpassed));
@@ -138,9 +152,15 @@ export class DynatraceReleaseSummarySection extends DynatraceReleaseControl {
 			elementRow.append($("<td/>").text(testRunData.numvolatile));
 			elementRow.append($("<td/>").text(testRunData.numdegraded));
 			elementRow.append($("<td/>").text(testRunData.numfailed));
-			this._element.find("table").append(elementRow);
+			
+			table.append(elementRow)
+			table.show();
+			
+			this._element.append($("<div/>").addClass("env").text(env));
+			this._element.append(table);
 		}
-		else{
+		else if (testRunData.message){
+			this._element.append($("<div/>").addClass("env").text(env));
 			this._element.append($("<span/>").addClass("message").text(testRunData.message));
 		}
 	}
@@ -204,7 +224,6 @@ if (typeof VSS.getConfiguration().onBuildChanged == 'function'){
 }
 if (typeof VSS.getConfiguration().onReleaseChanged == 'function'){	
 	DynatraceReleaseSummarySection.enhance(DynatraceReleaseSummarySection, $(".dynatrace-testautomation-summary"), {});
-	//DynatraceReleaseResultsTab.enhance(DynatraceResultsTab, $(".dynatrace-testautomation-results"), {});
 }
 
 // Notify the parent frame that the host has been loaded

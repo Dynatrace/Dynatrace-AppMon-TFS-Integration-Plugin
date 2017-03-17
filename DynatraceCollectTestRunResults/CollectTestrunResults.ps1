@@ -80,6 +80,21 @@ $testRunContent = (Get-Content $Path) -Join "`n" | ConvertFrom-Json
 $testRunNumDegraded = $testRunContent.numdegraded
 $testRunNumVolatile = $testRunContent.numvolatile
 
+$logResultsObject = @{
+  "numpassed" = $testRunContent.numpassed
+  "numimproved" = $testRunContent.numimproved
+  "numvolatile" = $testRunContent.numvolatile
+  "numdegraded" = $testRunContent.numdegraded
+  "numfailed" = $testRunContent.numfailed
+  "hasTests" = $testRunCount -gt 0
+}
+if (-Not [string]::IsNullOrEmpty($testRunContent.message)){
+  $logResultsObject.message = $testRunContent.message
+}
+$logResults = $logResultsObject | ConvertTo-Json
+$logResults = $logResults -replace '\s+', ' '
+Write-Host "`"testRunData`": $logResults"
+			
 #Failed takes precedence
 if($markBuildOnDegraded -eq "FAILED" -or $markBuildOnVolatile -eq "FAILED") {
     if($testRunNumDegraded -gt 0 -and $markBuildOnDegraded -eq "FAILED") {
