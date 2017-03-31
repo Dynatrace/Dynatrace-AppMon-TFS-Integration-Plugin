@@ -151,7 +151,7 @@ export class DynatraceReleaseSummarySection extends DynatraceReleaseControl {
 	
 	protected displayDynatraceTestRunData(env, testRunData) {
 	    if (testRunData.hasTests){
-			var table = this._element.find("table").clone();
+			var table = this._element.find("table").first().clone();
 			
 			var elementRow = $("<tr/>");
 			elementRow.append($("<td/>").text(testRunData.numpassed));
