@@ -23,12 +23,12 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 				// get the dynatraceTestRun attachment from the build
 				var taskClient = DT_Client.getClient();
 				
-				taskClient.getPlanAttachments(vsoContext.project.id, "build", build.orchestrationPlan.planId, "dynatraceTestRun").then((taskAttachments)=> {							
+				taskClient.getPlanAttachments(vsoContext.project.id, "build", build.orchestrationPlan.planId, this.getAttachmentType()).then((taskAttachments)=> {							
 					if (taskAttachments.length === 1) {
 						var recId = taskAttachments[0].recordId;
 						var timelineId = taskAttachments[0].timelineId;
 	
-						taskClient.getAttachmentContent(vsoContext.project.id, "build", build.orchestrationPlan.planId,timelineId,recId,"dynatraceTestRun","dynatraceTestRunResult").then((attachmentContent)=> {														
+						taskClient.getAttachmentContent(vsoContext.project.id, "build", build.orchestrationPlan.planId,timelineId,recId,this.getAttachmentType(),"dynatraceTestRunResult").then((attachmentContent)=> {														
 							function arrayBufferToString(buffer){
 										var arr = new Uint8Array(buffer);
 										var str = String.fromCharCode.apply(String, arr);
@@ -52,6 +52,10 @@ export class DynatraceBuildControl extends Controls.BaseControl {
 	}
 	
 	protected displayDynatraceTestRunData(testRunData) {}
+	
+	protected getAttachmentType() {
+		return "dynatraceTestRun";
+	}
 	
 	public hasTests(testRunData) {
 		if (!testRunData.testresults) return false;
@@ -119,8 +123,7 @@ export class DynatraceBuildSummarySection extends DynatraceBuildControl {
 	}
 	
 	protected displayDynatraceTestRunData(testRunData) {
-		var hasTests = this.hasTests(testRunData);
-		if (hasTests){
+		if (testRunData.hasTests){
 			this._element.find("table").show();
 			
 			var elementRow = $("<tr/>");
@@ -134,6 +137,10 @@ export class DynatraceBuildSummarySection extends DynatraceBuildControl {
 		else if (testRunData.message){
 			this._element.append($("<span/>").addClass("message").text(testRunData.message));
 		}
+	}
+	
+	protected getAttachmentType() {
+		return "dynatraceTestRunSummary";
 	}
 }
 

@@ -55,7 +55,7 @@ $WebClient = New-Object System.Net.WebClient
 $WebClient.Credentials = $credential
 
 #Try getting the data but wait until it is stable. Dynatrace might take a while to get everything processed
-$testRunData = $WebClient.DownloadString($endpoint) | ConvertTo-Json
+$testRunData = $WebClient.DownloadString($endpoint) | ConvertFrom-Json
 $testRunCount = countTestRunEntries($testRunData)
 $prevTestRunCount = 0
 $retries = 10
@@ -63,7 +63,7 @@ while (($testRunCount -eq 0 -or $testRunCount -gt $prevTestRunCount) -and $retri
 {
   Start-Sleep -s 20
   $prevTestRunCount = $testRunCount
-  $testRunData = $WebClient.DownloadString($endpoint) | ConvertTo-Json
+  $testRunData = $WebClient.DownloadString($endpoint) | ConvertFrom-Json
   $testRunCount = countTestRunEntries($testRunData)
   $retries--
   if ($retries -lt 7 -and $testRunCount -eq 0) {
@@ -86,7 +86,7 @@ $logResultsObject = @{
   "numvolatile" = $testRunContent.numvolatile
   "numdegraded" = $testRunContent.numdegraded
   "numfailed" = $testRunContent.numfailed
-  "hasTests" = $testRunCount -gt 0
+  "hasTests" = countTestRunEntries($testRunContent) -gt 0
 }
 if (-Not [string]::IsNullOrEmpty($testRunContent.message)){
   $logResultsObject.message = $testRunContent.message
@@ -94,7 +94,11 @@ if (-Not [string]::IsNullOrEmpty($testRunContent.message)){
 $logResults = $logResultsObject | ConvertTo-Json
 $logResults = $logResults -replace '\s+', ' '
 Write-Host "`"testRunData`": $logResults"
-			
+
+$Path = [io.path]::GetTempFileName()
+$logResultsObject | ConvertTo-Json | Out-File $Path
+Write-Host "##vso[task.addattachment type=dynatraceTestRunSummary;name=dynatraceTestRunResult;]$Path"
+
 #Failed takes precedence
 if($markBuildOnDegraded -eq "FAILED" -or $markBuildOnVolatile -eq "FAILED") {
     if($testRunNumDegraded -gt 0 -and $markBuildOnDegraded -eq "FAILED") {
