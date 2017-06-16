@@ -66,6 +66,7 @@ if ($splitTestRunVersion.Length -gt 3){
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
 $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name $dtserver
 [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 $securePwd = ConvertTo-SecureString $dynatraceEndpoint.Authorization.Parameters['password'] -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential ($dynatraceEndpoint.Authorization.Parameters['username'], $securePwd)
 

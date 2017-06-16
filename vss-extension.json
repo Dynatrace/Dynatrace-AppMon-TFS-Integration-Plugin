@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "dynatrace-test-automation",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "name": "Dynatrace Test Automation",
   "description": "Integration of Dynatrace within your build. Dynatrace instruments the Unit and Integration tests and performs Test Automation APM magic. The results flow back to your build in TFS.",
   "publisher": "Realdolmen",
