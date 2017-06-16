@@ -46,12 +46,12 @@ if ($version.StartsWith("env:","CurrentCultureIgnoreCase")){
 
 $splitTestRunVersion = $testRunVersion.Split('.')
 $requestBody = @{
-  "versionmajor" = $splitTestRunVersion[0]
-  "versionminor" = $splitTestRunVersion[1]
-  "versionrevision" = $splitTestRunVersion[2]
-  "versionbuild" = $buildUniqueID
+  "versionMajor" = $splitTestRunVersion[0]
+  "versionMinor" = $splitTestRunVersion[1]
+  "versionRevision" = $splitTestRunVersion[2]
+  "versionBuild" = $buildUniqueID
   "category" = $category
-  "additionalmetadata" = @{
+  "additionalMetaData" = @{
     "TFS" = $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI
     "project" = $env:SYSTEM_TEAMPROJECT
   }
@@ -60,7 +60,7 @@ if (-Not [string]::IsNullOrEmpty($marker)){
   $requestBody.marker = $marker
 }
 if ($splitTestRunVersion.Length -gt 3){
-  $requestBody.versionrevision = [system.String]::Join(".", $splitTestRunVersion[2..($splitTestRunVersion.length-1)])
+  $requestBody.versionRevision = [system.String]::Join(".", $splitTestRunVersion[2..($splitTestRunVersion.length-1)])
 }
 
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
