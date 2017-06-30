@@ -62,6 +62,9 @@ if (-Not [string]::IsNullOrEmpty($marker)){
 if ($splitTestRunVersion.Length -gt 3){
   $requestBody.versionRevision = [system.String]::Join(".", $splitTestRunVersion[2..($splitTestRunVersion.length-1)])
 }
+if ($env:RELEASE_ENVIRONMENTNAME){
+  $requestBody.platform = $env:RELEASE_ENVIRONMENTNAME
+}
 
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
 $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name $dtserver
