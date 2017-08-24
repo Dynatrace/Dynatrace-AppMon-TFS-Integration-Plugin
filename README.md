@@ -89,6 +89,7 @@ After you run the build with this extension configured, you will notice an extra
 
 > **1.0.0**
 > - First public version
+
 > **2.4.4**
 > - Compatible with Dynatrace AppMon 7 ([Realdolmen.dynatrace-test-automation-2.4.4.vsix])
 
