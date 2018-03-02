@@ -90,11 +90,15 @@ After you run the build with this extension configured, you will notice an extra
 > **1.0.0**
 > - First public version
 
+> **2.4.4**
+> - Compatible with Dynatrace AppMon 7 ([Realdolmen.dynatrace-test-automation-2.4.4.vsix])
+
 Created by `RealDolmen`. All info on https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin
 
 [Test Automation Explained]: https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
 [.NET Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
 [Java Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
+[Realdolmen.dynatrace-test-automation-2.4.4.vsix]: https://github.com/Dynatrace/Dynatrace-AppMon-TFS-Integration-Plugin/releases/download/v2.4.3/Realdolmen.dynatrace-test-automation-2.4.4.vsix
 
 
 
