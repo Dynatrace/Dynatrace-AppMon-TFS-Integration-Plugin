@@ -22,7 +22,8 @@ param(
 	[string][Parameter(Mandatory=$false)] $marker,
 	[string][Parameter(Mandatory=$true)] $activateDotNetAgent
 )
-[bool]$activateDotNetAgentBool = Convert-String $activateDotNetAgent Boolean
+#[bool]$activateDotNetAgentBool = Convert-String $activateDotNetAgent Boolean
+[bool]$activateDotNetAgentBool = [bool]::Parse($activateDotNetAgent)
 
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal" 
@@ -96,6 +97,7 @@ if ($response)
   # Activate the agent
   if ($activateDotNetAgentBool)
   {
+    Write-Host "Activated DotNet Agent DT_AGENTACTIVE"
     $env:DT_AGENTACTIVE = $True
   }
 }
