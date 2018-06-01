@@ -68,6 +68,8 @@ if ($env:RELEASE_ENVIRONMENTNAME){
 }
 
 $env:DT_SERVICE_ENDPOINT_ID = $dtserver
+Write-Host "##vso[task.setvariable variable=DT_SERVICE_ENDPOINT_ID;]$dtserver"
+
 $dynatraceEndpoint = Get-ServiceEndpoint -Context $distributedTaskContext -Name $dtserver
 [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
@@ -91,6 +93,7 @@ if ($response)
   $env:DT_TESTRUN_ID = $dtTestrunId
   $env:DT_TESTRUN_HREF = $response.href
   Write-Host "##vso[task.setvariable variable=DT_TESTRUN_ID;]$dtTestrunId"
+  Write-Host "##vso[task.setvariable variable=DT_TESTRUN_HREF;]$response.href"
 
   Write-Host "DynaTrace DT_TESTRUN_ID: $env:DT_TESTRUN_ID"
   
@@ -99,6 +102,7 @@ if ($response)
   {
     Write-Host "Activated DotNet Agent DT_AGENTACTIVE"
     $env:DT_AGENTACTIVE = $True
+    Write-Host ("##vso[task.setvariable variable=DT_AGENTACTIVE;]$True")
   }
 }
 else

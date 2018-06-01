@@ -117,3 +117,4 @@ if($testRunNumVolatile -gt 0 -and $markBuildOnVolatile -eq "WARNING") {
     markBuild -As $markBuildOnVolatile -Cause "volatile" -HowMany $testRunNumVolatile
 }
 
+Write-Host ("##vso[task.setvariable variable=DT_AGENTACTIVE;]$False")
