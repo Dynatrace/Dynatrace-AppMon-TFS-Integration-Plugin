@@ -28,6 +28,8 @@ This means installing and configuring the Dynatrace Agent on the different build
 - QTAgent32_35.exe, 
 - QTAgent_40.exe
 - QTAgent32_40.exe
+- testhost.exe
+- testhost_x86.exe
 
 ### For Java
 
