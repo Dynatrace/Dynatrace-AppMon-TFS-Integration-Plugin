@@ -92,8 +92,8 @@ if ($response)
 
   $env:DT_TESTRUN_ID = $dtTestrunId
   $env:DT_TESTRUN_HREF = $response.href
-  Write-Host "##vso[task.setvariable variable=DT_TESTRUN_ID;]$dtTestrunId"
-  Write-Host "##vso[task.setvariable variable=DT_TESTRUN_HREF;]$response.href"
+  Write-Host "##vso[task.setvariable variable=DT_TESTRUN_ID;]$env:DT_TESTRUN_ID"
+  Write-Host "##vso[task.setvariable variable=DT_TESTRUN_HREF;]$env:DT_TESTRUN_HREF"
 
   Write-Host "DynaTrace DT_TESTRUN_ID: $env:DT_TESTRUN_ID"
   
