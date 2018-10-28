@@ -15,8 +15,8 @@
     "vso.build_execute",
     "vso.release_execute"
   ],
-  "tags": [
-    "Build"
+  "categories": [
+    "Build and release"
   ],
   "content": {
     "details": {
