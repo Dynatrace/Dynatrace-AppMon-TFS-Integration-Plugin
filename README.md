@@ -31,6 +31,8 @@ This means installing and configuring the Dynatrace Agent on the different build
 - testhost.exe
 - testhost_x86.exe
 
+**Important Note:** When you use [Fakes] in your integration tests, MS also uses a profiler which kicks out the Dynatrace profiler. So, that won't work. 
+
 ### For Java
 
 see [Java Agent Configuration]
@@ -101,6 +103,7 @@ Created by `RealDolmen`. All info on https://github.com/Dynatrace/Dynatrace-TFS-
 [.NET Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
 [Java Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/Java+Agent+Configuration
 [Realdolmen.dynatrace-test-automation-2.4.4.vsix]: https://github.com/Dynatrace/Dynatrace-AppMon-TFS-Integration-Plugin/releases/download/v2.4.3/Realdolmen.dynatrace-test-automation-2.4.4.vsix
+[Fakes]: https://docs.microsoft.com/en-us/visualstudio/test/isolating-code-under-test-with-microsoft-fakes?view=vs-2017
 
 
 
