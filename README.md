@@ -97,7 +97,11 @@ After you run the build with this extension configured, you will notice an extra
 > **2.4.4**
 > - Compatible with Dynatrace AppMon 7 ([Realdolmen.dynatrace-test-automation-2.4.4.vsix])
 
+> **2.4.11**
+> - Released to Visual Studio Marketplace
+
 Created by `RealDolmen`. All info on https://github.com/Dynatrace/Dynatrace-TFS-Integration-Plugin
+Also available via the MarketPlace: https://marketplace.visualstudio.com/items?itemName=realdolmen.dynatrace-test-automation
 
 [Test Automation Explained]: https://community.dynatrace.com/community/display/DOCDT65/Test+Automation+Explained
 [.NET Agent Configuration]: https://community.dynatrace.com/community/display/DOCDT65/.NET+Agent+Configuration
