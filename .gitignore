@@ -1,6 +1,5 @@
 dist
 node_modules
-*.vsix
 .project
 Presentation/
 images/original.xcf
