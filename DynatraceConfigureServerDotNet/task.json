@@ -1,5 +1,5 @@
 {
-  "id": "2c69fa00-f528-11e6-bc64-92361f002671",
+  "id": "d6a76f84-dc2b-11e8-9f8b-f2801f1b9fd1",
   "name": "ConfigureServerDotNet",
   "friendlyName": "Dynatrace Configure dotNet Agent",
   "description": "Overwrites default agent configuration by setting specific environment variables",

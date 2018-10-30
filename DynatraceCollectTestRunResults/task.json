@@ -1,5 +1,5 @@
 {
-  "id": "4f92779c-bd55-11e6-a4a6-cec0c932ce01",
+  "id": "d6a76c50-dc2b-11e8-9f8b-f2801f1b9fd1",
   "name": "CollectDynatraceTestrunResults",
   "friendlyName": "Dynatrace Collect Testrun Results",
   "description": "Collects Dynatrace Testrun Results and stores them as a build attachment",

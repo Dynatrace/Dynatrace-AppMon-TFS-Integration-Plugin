@@ -1,5 +1,5 @@
 ﻿{
-  "id": "e6eaa7ec-cea1-11e6-bf26-cec0c932ce01",
+  "id": "d6a769a8-dc2b-11e8-9f8b-f2801f1b9fd1",
   "name": "RegisterDynatraceTestrun",
   "friendlyName": "Dynatrace Register Testrun",
   "description": "Register a new Testrun in Dynatrace.",
